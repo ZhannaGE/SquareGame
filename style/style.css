@@ -1,0 +1,41 @@
+body{
+    background-color: #eaf2f9;
+}
+
+.squareWrapper{
+    display: flex;  
+    flex-wrap: wrap;
+    margin: 100px;
+}
+.square{
+    width: 100px;
+    height: 100px;
+    border: 1px solid black;
+}
+.output{
+    margin-top: 100px;
+}
+.blue{
+background-color: rgb(30, 58, 69);
+}
+.purple{
+    background-color: #b487eb;
+}
+.pink{
+    background-color: #eb87c0;
+}
+.red{
+    background-color: #eb8787;
+}
+.yellow{
+    background-color: #d38c2f;
+}
+.sky{
+    background-color: #878feb;
+}
+.green{
+    background-color: #afeb87;
+}
+.grey{
+    background-color: #9f9c9c;
+}
