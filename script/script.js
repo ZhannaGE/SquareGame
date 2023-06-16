@@ -1,26 +1,8 @@
 
-// const square = document.querySelectorAll(".square");
-// let input = document.getElementById("myInput");
-// const wrapper = document.querySelector('.wrapper')
 
-// setTimeout(() => {
-//    Array.from(square).forEach(function(element) {
-//   element.classList.add("grey");
-// });
-//   }, 2000);
+const colors = ['cadetblue', 'skyblue', 'green', 'yellow', 'purple', 'orange', 'grey', 'pink', 'yellowgreen', 'cyan', 'chocolate', 'goldenrod', 'chartreuse', 'tomato', 'brown', 'salmon','Olive','Navy','Aquamarine','Teal'];
 
-//  wrapper.addEventListener("click", function(event) {
-//     let clickedElement = event.target;
-//     clickedElement.classList.toggle('grey');
-//     console.log(clickedElement)
-//     if(clickedElement.classList.contains('blue')){
-//         input.value += 1;
-//     }
-//   });
-
-const colors = ['rust', 'skyblue', 'green', 'yellow', 'purple', 'orange', 'grey', 'pink', 'sky', 'yellowgreen', 'indigo', 'chocolate', 'vinous', 'beige', 'tomato', 'brown', 'oldrose'];
-
-// Функция для генерации случайного числа в заданном диапазоне
+//Функция для генерации случайного числа в заданном диапазоне
 function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
@@ -39,68 +21,96 @@ function shuffleArray(array) {
 // Генерация случайных цветов
 function generateColors() {
   var shuffledColors = shuffleArray(colors);
-
   return shuffledColors;
 }
 
+// Генерация случайного цвета без пемешивания массива
+ function  getRandomColor() {
+  var randomIndex = Math.floor(Math.random() * colors.length);
+  return colors[randomIndex];
+}
 
-// =========================
-let select = document.querySelector('select');
-console.log(select.value);
-// let selectedValue = mySelect.value;
 
-let level = 1;
-let width = '300px';
-
-// 1 -- 300 === 1+2 -> 3 * 100
-// 2 -- 400 === 2+2 -> 4 * 100
-// 3 -- 500 === 3+2 -> 5 * 100
+// =========================уникальные настройки
 
 class SquareGame{
-
   // Функция-конструктор
   // Запускается один раз, но каждый раз когда мы создаём новую игру (через слвоо нью)
   constructor(level, parentSelector) {
-    console.log('Starg new game. Log from contrutor');
     this.level = level;
     this.width = (this.level + 2) * 100 + 'px';
-   
     this.parentDiv = document.querySelector(parentSelector);
     this.sqaureWrapper = this.parentDiv.querySelector('.squareWrapper');
     this.levelSelector = this.parentDiv.querySelector('select');
     this.levelSelector.addEventListener('change', this.changeHardLevel.bind(this));
-    console.log(this.levelSelector);
-    this.statNewGame();    
+    this.statNewGame();   
+     
   }
 
   // start new game
   statNewGame() {
+    this.cleanDiv();
     this.numberOfSquares = (this.level + 1) * (this.level + 1);
+    console.log(this.numberOfSquares)
     this.width = (this.level + 2) * 100 + 'px';
     this.sqaureWrapper.style.width = this.width;
     this.generateSquares();
+    this.hiddColors();
   }
-
-  // Генерация квадратиков
+ 
+  // Генерация цветов
   generateSquares() {
-    // почистить поле от старых квадратиков
-
-
     var randomColors = generateColors();
-
-    console.log(this.numberOfSquares);
-
-    for (var i = 0; i < this.numberOfSquares; i++) {
-      var square = document.createElement('div');
-      square.style.backgroundColor = randomColors[i];
-      square.className = 'square';
-      console.log('test');
+    var repeatedColor = getRandomColor();
+   //генерация квадратов одинакового цвета 
+    var repeatedPosition = Math.floor(Math.random() * this.numberOfSquares);
+    for (var i = 0; i < this.level + 1; i++) {
+      var square = document.createElement("div");
+      square.className = "square";
+      square.style.backgroundColor = repeatedColor;
+      square.style.order = repeatedPosition;
       this.sqaureWrapper.appendChild(square);
     }
+
+  // генерация квадратов разных цветов
+    for (var i = this.level + 1; i < this.numberOfSquares; i++) {
+      var square = document.createElement("div");
+      square.className = "square";
+      square.style.backgroundColor = randomColors[i];
+      var randomPosition = Math.floor(Math.random() * this.numberOfSquares);
+      square.style.order = randomPosition;
+      this.sqaureWrapper.appendChild(square);
   };
+ }
+  
+    hiddColors() {
+       
+      setTimeout(() => {
+        for (var i = 0; i < this.numberOfSquares; i++) {
+        console.log(this.numberOfSquares)
+        var square = document.querySelectorAll('.square');
+        square.className = "square";
+        square.classList.add("grey");
+        console.log(square)
+      }
+      }, 2000);
+
+      }
+
+
+//чистим прежнюю игру
+  cleanDiv() {
+      this.sqaureWrapper.innerHTML = ""; 
+      }
+      
+  
 
   // Выбор сложности
   changeHardLevel () {
+    if (this.levelSelector.value === "1") {
+      console.log('hello')
+      this.level = 1;
+    }
     if (this.levelSelector.value === "2") {
       console.log('hi')
       this.level = 2;
@@ -115,27 +125,9 @@ class SquareGame{
 }
 
 
+
 let simpleGame = new SquareGame(1, ".simlpeGameApp");
 let mediumGame = new SquareGame(2, "#mediumGame");
-
-
-
-
-// let medium = new DemoConfig(2, '400px');
-// let hard = new DemoConfig(3, '500px');
-
-
-
-// Object.keys(simple.width).forEach(function (key) {
-//   parentDiv.style[key] = simple.width[key];
-//   console.log(simple.width[key])
-// });
-
-
-
-
-
-
 
 
 
