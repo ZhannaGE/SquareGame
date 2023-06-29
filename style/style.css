@@ -1,4 +1,6 @@
+body{
 
+}
 .flex{
     display: flex;
 }
@@ -6,13 +8,92 @@
 .squareWrapper{
     display: flex;  
     flex-wrap: wrap;
-    margin: 100px;
+    margin: 50px;
+
 }
 .square{
+    margin: 5px;
     width: 100px;
-    height: 100px;
-    border: 1px solid black;
+    height: 150px;
+    border: 1px solid #444;
+    background-size:cover;
+    border-radius: 10px;
+    background-repeat: no-repeat;
+    /*background-image: url("/img/clubs-ga004ea417_640.png");*/
 }
-.grey{
-    background-color: gray;
+.grey {
+    background-color: #ffffff;
+    opacity: 0.8;
+    background: linear-gradient(135deg, #cc151555 25%, transparent 25%) -7px 0/ 14px 14px, linear-gradient(225deg, #cc1515 25%, transparent 25%) -7px 0/ 14px 14px, linear-gradient(315deg, #cc151555 25%, transparent 25%) 0px 0/ 14px 14px, linear-gradient(45deg, #cc1515 25%, #ffffff 25%) 0px 0/ 14px 14px!important;
+}
+/* CSS-стили для кнопки "Старт" */
+.start-button {
+    padding: 20px 70px;
+    font-size: 19px;
+    font-weight: bold;
+    background-color: #4CAF50;
+    color: #ffffff;
+    border: 2px solid #1e5f2b;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 4px 7px rgb(2 4 7 / 67%);
+    margin: 100px;
+}
+
+.start-button:hover {
+    background-color: #3a863b;
+}
+
+.start-button:active {
+    background-color: #39813b;
+}
+
+.start-button:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.2);
+}
+
+
+.circle {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    background-color: #eaeaea;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.number {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    z-index: 2;
+}
+
+.circle::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding-top: 6px;
+    padding-left: 6px;
+    width: 80%;
+    height: 80%;
+    border-radius: 50%;
+    border: 10px solid #ccc;
+    border-top-color: #4CAF50FF;
+    animation: progress 3s linear infinite;
+}
+
+@keyframes progress {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }

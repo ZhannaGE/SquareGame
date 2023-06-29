@@ -6,13 +6,11 @@
   <link rel="stylesheet" href="style/style.css">
 </head>
 <body>
-<h1>Remember three same coloros</h1>
+
 <div class="flex">
-
-
-<div class="simlpeGameApp">
-  <h2>Game 1: simple</h2>
-  <label for="">
+<div class="simpleGameApp">
+  <h2>Найди одинаковые цвета</h2>
+  <label>
     Select hard level
     <select>
       <option value="1">Simple</option>
@@ -23,23 +21,35 @@
   <div  class="squareWrapper"></div>
 </div>
 
-
-
-<div id="mediumGame">
-  <h2>Game 2: medium</h2>
-  <label for="">
-    Select hard level
-    <select>
-      <option value="1">Simple</option>
-      <option value="2" selected>Medium</option>
-      <option value="3">Hard</option>
-    </select>
-  </label>
-  <div  class="squareWrapper"></div>
-  
- </div>
+<!--<div id="mediumGame">-->
+<!--  <h2>Game 2: medium</h2>-->
+<!--  <label>-->
+<!--    Select hard level-->
+<!--    <select>-->
+<!--      <option value="1">Simple</option>-->
+<!--      <option value="2" selected>Medium</option>-->
+<!--      <option value="3">Hard</option>-->
+<!--    </select>-->
+<!--  </label>-->
+<!--  <div  class="squareWrapper"></div>-->
+<!--  -->
+<!-- </div>-->
 </div>
 
+<div id="game-container">
+  <button id="start-button" class="start-button">Старт</button>
+</div>
+
+
+<div class="circle">
+  <span class="number"><h2 id="timer">3</h2></span>
+</div>
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="script/script.js"></script>
 </body>
 </html>
