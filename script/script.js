@@ -36,6 +36,10 @@ function startNewGame(level) {
 }
 
 class SquareGame {
+
+    MAX_LEVEL = 3;
+    timeLeft = 3;
+
     // Функция-конструктор
     // Запускается один раз, но каждый раз когда мы создаём новую игру (через слвоо нью)
     constructor(level, parentSelector) {
@@ -46,11 +50,12 @@ class SquareGame {
         this.sqaureWrapper = this.parentDiv.querySelector('.squareWrapper');
         this.sqaureWrapper.addEventListener('click', this.checkSameColors.bind(this));
         this.repeatedColor;
-        this.levelSelector = this.parentDiv.querySelector('select');
-        this.levelSelector.addEventListener('change', this.setDifficultyLevel.bind(this));
+
+        //this.levelSelector = this.parentDiv.querySelector('select');
+        //this.levelSelector.addEventListener('change', this.setDifficultyLevel.bind(this));
+
         this.timerElement = document.getElementById("timer");
         this.timerInterval = null;
-        this.timeLeft = 3;
         // document.getElementById("output2").textContent = this.gameDifficulty;
 
     }
@@ -78,7 +83,7 @@ class SquareGame {
                 this.timerElement.textContent = "Go!";
                 const color = document.querySelector('.circle');
                 color.style.backgroundColor = '#f9474b';
-                this.startNewGame();
+                this.unblockClick();
                 this.hideColors();
             }
         }, 1000);
@@ -88,7 +93,7 @@ class SquareGame {
     }
 
 //разблокируем клики
-    startNewGame() {
+    unblockClick() {
         document.documentElement.style.pointerEvents = "auto";
     }
 
@@ -108,29 +113,32 @@ class SquareGame {
     }
 
     nextLevel() {
-        this.changeDifficultyLevel('next');
+        this.setDifficultyLevel(this.gameDifficulty+1);
         this.startNewLevel();
     }
 
     prevLevel() {
-        this.changeDifficultyLevel('prev');
+        this.setDifficultyLevel(this.gameDifficulty-1);
         this.startNewLevel();
     }
 
     changeDifficultyLevel(direction) {
-        if (direction === 'next' && this.gameDifficulty <= 2) {
-            this.gameDifficulty++;
-            console.log(this.gameDifficulty)
+        if (direction === 'next') {
+            this.setDifficultyLevel(this.gameDifficulty+1);
         }
-        else if(direction === 'next' && this.gameDifficulty === 3){
-            console.log('you win');
-            startNewGame()
-        }
-        else if (direction === 'prev' && this.gameDifficulty >= 2) {
+        else if (direction === 'prev') {
             this.gameDifficulty--;
         }
     }
 
+    setDifficultyLevel(lvl) {
+        this.gameDifficulty = lvl;
+        if (this.gameDifficulty < 1) {
+            this.gameDifficulty = 1;
+        } else if (this.gameDifficulty > this.MAX_LEVEL) {
+            this.gameDifficulty = this.MAX_LEVEL;
+        }
+    }
 
     // Генерация цветов
     generateSquares() {
@@ -143,21 +151,21 @@ class SquareGame {
 
 
         for (let i = 0; i < this.gameDifficulty + 1; i++) {
-            let square = document.createElement("div");
-            square.className = "square";
-            square.style.backgroundImage = `url(${repeatedColor})`;
-            square.style.order = Math.floor(Math.random() * this.numberOfSquares);
-            this.sqaureWrapper.appendChild(square);
+            this.createSquare(repeatedColor)
         }
 
         // генерация квадратов разных цветов
         for (let i = this.gameDifficulty + 1; i < this.numberOfSquares; i++) {
-            let square = document.createElement("div");
-            square.className = "square";
-            square.style.backgroundImage = `url(${randomColors[i]})`;
-            square.style.order = Math.floor(Math.random() * this.numberOfSquares);
-            this.sqaureWrapper.appendChild(square);
+            this.createSquare(randomColors[i])
         }
+    }
+
+    createSquare(imgUrl) {
+        let square = document.createElement("div");
+        square.className = "square";
+        square.style.backgroundImage = `url(${imgUrl})`;
+        square.style.order = Math.floor(Math.random() * this.numberOfSquares);
+        this.sqaureWrapper.appendChild(square);
     }
 
     //окрашивание квадратов в один свет
@@ -179,7 +187,7 @@ class SquareGame {
 
 
     // Выбор сложности
-    setDifficultyLevel() {
+    setDifficultyLevelOLD() {
         if (this.levelSelector.value === "1") {
             this.gameDifficulty = 1;
         }
@@ -203,16 +211,34 @@ class SquareGame {
 
         if (repeatedColor === cardName) {
             this.userMovemantColors.push(currentColor);
-            if (this.userMovemantColors.length === this.gameDifficulty + 1) {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'победа',
-                    text: 'переходим к следующему уровню',
-                }).then(() => {
-                    this.nextLevel();
-                })
 
+            if (this.userMovemantColors.length === this.gameDifficulty + 1) {
+                if (this.gameDifficulty < this.MAX_LEVEL) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'победа',
+                        text: 'переходим к следующему уровню',
+                    }).then(() => {
+                        this.nextLevel();
+                    })
+                } else {
+                    Swal.fire({
+                        icon: 'success',
+                        title: "YOU WIN"
+                    }).then(()=> {
+                        // имеет смысл сделать отдельную ф-ю для "очистки старых данных" перед перезапуском ВСЕХ уровней
+                        this.setDifficultyLevel(1);
+                        //this.userLife = 1;
+                        // this.MAX_LEVEL += 1;
+                        this.startNewLevel();
+                    })
+
+                }
             }
+
+
+
+
         } else {
             if (this.userLife > 0) {
                 this.userLife -= 1;
@@ -234,8 +260,8 @@ class SquareGame {
 
 const squareWrapper = document.querySelector('.squareWrapper');
 const buttonStart = document.querySelector('.start-button');
-const audioSquare = new Audio('/audio/click.ogg');
-const audioButtonStart = new Audio('/audio/songscard.mp3');
+const audioSquare = new Audio('../audio/click.ogg');
+const audioButtonStart = new Audio('../audio/songscard.mp3');
 
 // Функция для воспроизведения звука при клике
 function playClickSound(song) {
@@ -246,5 +272,8 @@ function playClickSound(song) {
 squareWrapper.addEventListener('click', () => playClickSound(audioSquare));
 buttonStart.addEventListener('click', () => playClickSound(audioButtonStart));
 
-startNewGame()
+//startNewGame();
+
+let squareGame = new SquareGame(1, ".simpleGameApp");
+squareGame.start();
 

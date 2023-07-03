@@ -5,7 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fb484d9f-e871-4398-b7cb-d4fc186fa1a7" name="Changes" comment="add cards">
-      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/script/script.js" beforeDir="false" afterPath="$PROJECT_DIR$/script/script.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/style/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/style/style.css" afterDir="false" />
     </list>
@@ -16,6 +16,19 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="selectedUrlAndAccountId">
+      <UrlAndAccount>
+        <option name="accountId" value="1bb33e85-f246-4dd2-a1de-b012c3f9ffbb" />
+        <option name="url" value="https://github.com/ZhannaGE/SquareGame.git" />
+      </UrlAndAccount>
+    </option>
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -76,7 +89,9 @@
       <workItem from="1687581530748" duration="30766000" />
       <workItem from="1687890567115" duration="2060000" />
       <workItem from="1687954841793" duration="17785000" />
-      <workItem from="1688043294660" duration="40309000" />
+      <workItem from="1688043294660" duration="42799000" />
+      <workItem from="1688381567270" duration="946000" />
+      <workItem from="1688383734071" duration="1000" />
     </task>
     <task id="LOCAL-00001" summary="commit">
       <created>1688043165065</created>
