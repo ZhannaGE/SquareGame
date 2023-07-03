@@ -1,5 +1,5 @@
-// const colors = ['cadetblue', 'skyblue', 'green', 'yellow', 'purple', 'orange', 'grey', 'pink', 'yellowgreen', 'cyan', 'chocolate', 'goldenrod', 'chartreuse', 'tomato', 'brown', 'salmon', 'olive', 'navy', 'aquamarine', 'teal'];
-const colors = ['/img/1.png','/img/2.png','/img/3.png','/img/4.png','/img/5.png','/img/6.png','/img/7.png','/img/8.png','/img/9.png','/img/10.png','/img/11.png','/img/12.png','/img/13.png','/img/14.png','/img/15.png','/img/16.png','/img/17.png','/img/18.png','/img/18.png','/img/20.png','/img/21.png','/img/22.png','/img/23.png','/img/25.png','/img/25.png'];
+const colors = ['/img/1.png', '/img/2.png', '/img/3.png', '/img/4.png', '/img/5.png', '/img/6.png', '/img/7.png', '/img/8.png', '/img/9.png', '/img/10.png', '/img/11.png', '/img/12.png', '/img/13.png', '/img/14.png', '/img/15.png', '/img/16.png', '/img/17.png', '/img/18.png', '/img/18.png', '/img/20.png', '/img/21.png', '/img/22.png', '/img/23.png', '/img/25.png', '/img/25.png', '/img/26.png', '/img/27.png', '/img/28.png', '/img/29.png'];
+
 //Функция для генерации случайного числа в заданном диапазоне
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -18,9 +18,7 @@ function shuffleArray(array) {
 
 // Генерация случайных цветов
 function generateColors() {
-    let shuffledColors = shuffleArray(colors).slice();
-    console.log(shuffledColors)
-    return shuffledColors;
+    return shuffleArray(colors).slice();
 }
 
 // Генерация случайного цвета без перемешивания массива
@@ -29,12 +27,13 @@ function getRandomColor() {
     return colors[randomIndex];
 }
 
-// level - уровень сложности
-// newLevel - новый уровнь игры
-// game - экземпляр игры
-
-
-// =========================уникальные настройки
+function startNewGame(level) {
+    if (level == null) {
+        level = 1
+    }
+    let squareGame = new SquareGame(level, ".simpleGameApp");
+    squareGame.start();
+}
 
 class SquareGame {
     // Функция-конструктор
@@ -44,21 +43,21 @@ class SquareGame {
         this.width = (this.gameDifficulty + 2) * 100 + 'px';
         this.parentDiv = document.querySelector(parentSelector);
         this.userMovemantColors = [];
-        this.userLife = 1;
         this.sqaureWrapper = this.parentDiv.querySelector('.squareWrapper');
         this.sqaureWrapper.addEventListener('click', this.checkSameColors.bind(this));
         this.repeatedColor;
         this.levelSelector = this.parentDiv.querySelector('select');
         this.levelSelector.addEventListener('change', this.setDifficultyLevel.bind(this));
-        this.start()
         this.timerElement = document.getElementById("timer");
         this.timerInterval = null;
         this.timeLeft = 3;
+        // document.getElementById("output2").textContent = this.gameDifficulty;
+
     }
 
 
     //запуск игры по нажатию кнопки
-    start(){
+    start() {
         const startButton = document.getElementById("start-button");
         startButton.addEventListener("click", () => {
             startButton.parentNode.removeChild(startButton);
@@ -78,7 +77,7 @@ class SquareGame {
                 clearInterval(this.timerInterval);
                 this.timerElement.textContent = "Go!";
                 const color = document.querySelector('.circle');
-                color.style.backgroundColor = '#4CAF50FF';
+                color.style.backgroundColor = '#f9474b';
                 this.startNewGame();
                 this.hideColors();
             }
@@ -102,17 +101,10 @@ class SquareGame {
         this.width = (this.gameDifficulty + 2) * 100 + 'px';
         this.sqaureWrapper.style.width = this.width;
         this.generateSquares();
-        // Swal.fire({
-        //     title: 'внимание',
-        //     text: 'игра начнется через несколько секунд, запомни одинаковые цвета',
-        //     icon: 'info',
-        //     confirmButtonText: 'начать'
-        // }).then(()=>{
-        //     this.hideColors();
-        // })
-        console.log(this.timeLeft)
         this.startTimer();
-
+        this.userLife = 2;
+        document.getElementById("output").textContent = this.userLife;
+        console.log(this.gameDifficulty)
     }
 
     nextLevel() {
@@ -126,12 +118,17 @@ class SquareGame {
     }
 
     changeDifficultyLevel(direction) {
-        if(direction === 'next' && this.gameDifficulty <= 3) {
+        if (direction === 'next' && this.gameDifficulty <= 2) {
             this.gameDifficulty++;
-        }else if (direction === 'prev' && this.gameDifficulty >= 2) {
+            console.log(this.gameDifficulty)
+        }
+        else if(direction === 'next' && this.gameDifficulty === 3){
+            console.log('you win');
+            startNewGame()
+        }
+        else if (direction === 'prev' && this.gameDifficulty >= 2) {
             this.gameDifficulty--;
         }
-        console.log(this.gameDifficulty)
     }
 
 
@@ -141,7 +138,7 @@ class SquareGame {
         let repeatedColor = this.repeatedColor;
         // Взять искомый цвет, найти его в массиве "случайных цветов" и убрать оттуда
         //генерация квадратов одинакового цвета
-       let repeatedColorIndex = randomColors.indexOf(repeatedColor);
+        let repeatedColorIndex = randomColors.indexOf(repeatedColor);
         randomColors.splice(repeatedColorIndex, 1);
 
 
@@ -149,7 +146,6 @@ class SquareGame {
             let square = document.createElement("div");
             square.className = "square";
             square.style.backgroundImage = `url(${repeatedColor})`;
-            console.log(repeatedColor)
             square.style.order = Math.floor(Math.random() * this.numberOfSquares);
             this.sqaureWrapper.appendChild(square);
         }
@@ -189,70 +185,66 @@ class SquareGame {
         }
         if (this.levelSelector.value === "2") {
             this.gameDifficulty = 2;
-        }
-        else if (this.levelSelector.value === "3") {
+        } else if (this.levelSelector.value === "3") {
             this.gameDifficulty = 3;
         }
         this.startNewLevel();
+
     };
 
-
+//переход на следующий уровень
     checkSameColors(event) {
         let repeatedColor = this.repeatedColor;
         const target = event.target;
-        target.classList.toggle('grey');
-        let currentColor = target.style.backgroundColor;
-        if (repeatedColor === currentColor){
-            this.userMovemantColors.push(currentColor);
-        }
-      if (this.userMovemantColors.length === this.gameDifficulty + 1){
-          Swal.fire({
-              icon: 'success',
-              title: 'победа',
-              text: 'переходим к следующему уровню',
-          }).then(()=> {
-              this.nextLevel();
-          })
+        target.classList.remove('grey');
+        let currentColor = target.style.backgroundImage.toString();
+        let string = target.style.backgroundImage;
+        let cardName = string.substring(string.indexOf('/'), string.lastIndexOf('"'));
 
+        if (repeatedColor === cardName) {
+            this.userMovemantColors.push(currentColor);
+            if (this.userMovemantColors.length === this.gameDifficulty + 1) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'победа',
+                    text: 'переходим к следующему уровню',
+                }).then(() => {
+                    this.nextLevel();
+                })
+
+            }
+        } else {
+            if (this.userLife > 0) {
+                this.userLife -= 1;
+                document.getElementById("output").textContent = this.userLife;
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'неудача',
+                    text: 'попробуй еще раз',
+                }).then(() => {
+                    this.prevLevel();
+                })
+            }
         }
-        else if (repeatedColor !== currentColor) {
-          Swal.fire({
-              icon: 'error',
-              title: 'неудача',
-              text: 'попробуй еще раз',
-          }).then(()=>{
-              // if (this.userLife > 0) {
-              //     this.prevLevel();
-              // }
-              this.userLife--;
-          })
-        }
-        else {
-          console.log('2you lose');
-      }
 
     }
-
 }
 
 
-let simpleGame = new SquareGame(1, ".simpleGameApp");
-//let mediumGame = new SquareGame(2, "#mediumGame");
+const squareWrapper = document.querySelector('.squareWrapper');
+const buttonStart = document.querySelector('.start-button');
+const audioSquare = new Audio('/audio/click.ogg');
+const audioButtonStart = new Audio('/audio/songscard.mp3');
 
-// 1 менять уровень на один выше, после выйграша
-//- как это сделать когда уровень привязан к значению из селект
-//2 запускать startNewLevel() после пройграша
-//3 менять уровень на один ниже, после пройграша
+// Функция для воспроизведения звука при клике
+function playClickSound(song) {
+    song.currentTime = 0;
+    song.play();
+}
 
+squareWrapper.addEventListener('click', () => playClickSound(audioSquare));
+buttonStart.addEventListener('click', () => playClickSound(audioButtonStart));
 
-
-// ПРОДУМАТЬ ЛОГИКУ ИГРЫ ДО КОНЦА
-// как можно выиграть? Как определить кто прошел дальше, а кто не так далеко
-// сколько попыток дается на однну игру (сколько "жизней" - 1, 2, 3...)
-// разобраться с кнопкой "старт игры" или не начинать игру при выборе уровня сложности
-// улусшить дизайн (например таймер 3-2-1 почти не виден)
-
-
-
-
+startNewGame()
 

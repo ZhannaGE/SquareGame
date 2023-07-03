@@ -1,53 +1,124 @@
+@font-face {
+font-family: "RalewayRegular";
+src: url("/fonts/IceAgeRUS.ttf") format("truetype");
+    font-style: normal;
+    font-weight: normal;
+}
 body{
+    /*overflow-y: hidden;*/
+    background-image: url("/img/background.jpg");
+    background-repeat: no-repeat;
+    background-size:cover;
+    height: 100vh;
+    width: 100vw;
+    font-family: Comic Sans MS, Comic Sans, cursive;
+}
 
+
+h1{
+    font-family: "RalewayRegular",serif;
+    font-size: 50px;
+    text-shadow: 6px 9px 7px rgb(11 10 10 / 98%);
+    letter-spacing: 1px;
+    color: #b0acac;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+
+}
+h3{
+    text-align: center;
+    font-family: "RalewayRegular",serif;
+    font-size: 30px;
+    text-shadow: 6px 9px 7px rgb(11 10 10 / 98%);
+    letter-spacing: 1px;
+    color: #b0acac;
+}
+h2{
+    text-align: center;
+    font-family: "RalewayRegular",serif;
+    font-size: 30px;
+    letter-spacing: 1px;
+    color: #171717;
+}
+.header{
+    width: 100vw;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.transparent-border {
+    border: 1px double rgba(0, 0, 0, 0.5);
+    background-color: rgb(30 30 30 / 78%);
+    border-radius: 10px;
+    /*left:0;*/
+    /*top:0;*/
+    /*position:absolute;*/
+}
+.time{
+    border: 1px double rgba(0, 0, 0, 0.5);
+    background-color: rgb(30 30 30 / 78%);
+    border-radius: 10px;
+    /*margin-right: 30%;*/
+}
+.back{
+    border: 1px double rgba(0, 0, 0, 0.5);
+    background-color: rgb(30 30 30 / 78%);
+    border-radius: 10px;
+}
+
+
+.backgroundWrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 .flex{
     display: flex;
+    flex-wrap: wrap;
 }
 
 .squareWrapper{
-    display: flex;  
+    display: flex;
     flex-wrap: wrap;
-    margin: 50px;
+    margin-left: 30%;
 
 }
 .square{
-    margin: 5px;
+    margin: 3px;
     width: 100px;
     height: 150px;
     border: 1px solid #444;
     background-size:cover;
     border-radius: 10px;
     background-repeat: no-repeat;
-    /*background-image: url("/img/clubs-ga004ea417_640.png");*/
+
 }
 .grey {
     background-color: #ffffff;
-    opacity: 0.8;
     background: linear-gradient(135deg, #cc151555 25%, transparent 25%) -7px 0/ 14px 14px, linear-gradient(225deg, #cc1515 25%, transparent 25%) -7px 0/ 14px 14px, linear-gradient(315deg, #cc151555 25%, transparent 25%) 0px 0/ 14px 14px, linear-gradient(45deg, #cc1515 25%, #ffffff 25%) 0px 0/ 14px 14px!important;
 }
 /* CSS-стили для кнопки "Старт" */
 .start-button {
     padding: 20px 70px;
-    font-size: 19px;
+    font-size: 25px;
     font-weight: bold;
-    background-color: #4CAF50;
-    color: #ffffff;
-    border: 2px solid #1e5f2b;
+    background-color: #f9474b;
+    color: #000000;
+    border: 2px solid #000000;
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s ease;
     box-shadow: 0 4px 7px rgb(2 4 7 / 67%);
     margin: 100px;
+    font-family: Comic Sans MS, Comic Sans, cursive;
 }
 
 .start-button:hover {
-    background-color: #3a863b;
+    background-color: #cb3636;
 }
 
-.start-button:active {
-    background-color: #39813b;
-}
 
 .start-button:focus {
     outline: none;
@@ -59,7 +130,7 @@ body{
     width: 130px;
     height: 130px;
     border-radius: 50%;
-    background-color: #eaeaea;
+    background-color: #b0acac;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -85,7 +156,7 @@ body{
     height: 80%;
     border-radius: 50%;
     border: 10px solid #ccc;
-    border-top-color: #4CAF50FF;
+    border-top-color: #171717;
     animation: progress 3s linear infinite;
 }
 
@@ -96,4 +167,17 @@ body{
     100% {
         transform: rotate(360deg);
     }
+}
+label {
+    background: #f9474b;
+    color: #171717;
+    padding: 2px 10px 2px 0;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    display: none;
+}
+.hard{
+    border: 1px double rgba(0, 0, 0, 0.5);
+    background-color: rgb(30 30 30 / 78%);
+    border-radius: 10px;
 }
