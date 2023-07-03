@@ -6,40 +6,51 @@
   <link rel="stylesheet" href="style/style.css">
 </head>
 <body>
-<h1>Remember three same coloros</h1>
+<div class="backgroundWrapper">
 <div class="flex">
+  <div class="simpleGameApp">
+    <div class="header">
+      <div class="transparent-border">
+        <h1>Запомни<br> одинаковые<br> карты</h1>
+      </div>
+      <div class="time">
+      <div class="circle">
+        <span class="number"><h2 id="timer">3</h2></span>
+      </div>
+        <h3>Время</h3>
+    </div>
+      <div class="try">
+        <div class="back">
+          <h3>Право на <br>ошибку<br><span id="output">2</span></h3>
+        </div>
+      </div>
+  </div>
+    <label>
+     выбери сложность
+      <select>
+        <option value="1">Легкая</option>
+        <option value="2">Сложная</option>
+        <option value="3">Тяжелая</option>
+      </select>
+    </label>
 
-
-<div class="simlpeGameApp">
-  <h2>Game 1: simple</h2>
-  <label for="">
-    Select hard level
-    <select>
-      <option value="1">Simple</option>
-      <option value="2">Medium</option>
-      <option value="3">Hard</option>
-    </select>
-  </label>
-  <div  class="squareWrapper"></div>
+    <div class="squareWrapper"></div>
+  </div>
 </div>
 
 
-
-<div id="mediumGame">
-  <h2>Game 2: medium</h2>
-  <label for="">
-    Select hard level
-    <select>
-      <option value="1">Simple</option>
-      <option value="2" selected>Medium</option>
-      <option value="3">Hard</option>
-    </select>
-  </label>
-  <div  class="squareWrapper"></div>
-  
- </div>
+<div id="game-container">
+  <button id="start-button" class="start-button">Старт</button>
 </div>
 
+
+  <div class="hard">
+    <h3>уровень<br><span id="output2">1</span></h3>
+  </div>
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="script/script.js"></script>
+
 </body>
 </html>
