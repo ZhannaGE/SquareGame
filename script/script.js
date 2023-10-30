@@ -27,37 +27,25 @@ function getRandomColor() {
     return colors[randomIndex];
 }
 
-function startNewGame(level) {
-    if (level == null) {
-        level = 1
-    }
-    let squareGame = new SquareGame(level, ".simpleGameApp");
-    squareGame.start();
-}
-
 class SquareGame {
-
     MAX_LEVEL = 3;
     timeLeft = 3;
 
     // Функция-конструктор
     // Запускается один раз, но каждый раз когда мы создаём новую игру (через слвоо нью)
     constructor(level, parentSelector) {
-        this.gameDifficulty = level;
-        this.width = (this.gameDifficulty + 2) * 100 + 'px';
+        this.gameState = {
+            gameDifficulty: level,
+            fadeTime: 2,
+        };
+        this.width = (this.gameState.gameDifficulty + 2) * 100 + 'px';
         this.parentDiv = document.querySelector(parentSelector);
         this.userMovemantColors = [];
         this.sqaureWrapper = this.parentDiv.querySelector('.squareWrapper');
         this.sqaureWrapper.addEventListener('click', this.checkSameColors.bind(this));
         this.repeatedColor;
-
-        //this.levelSelector = this.parentDiv.querySelector('select');
-        //this.levelSelector.addEventListener('change', this.setDifficultyLevel.bind(this));
-
         this.timerElement = document.getElementById("timer");
         this.timerInterval = null;
-        // document.getElementById("output2").textContent = this.gameDifficulty;
-
     }
 
 
@@ -66,6 +54,13 @@ class SquareGame {
         const startButton = document.getElementById("start-button");
         startButton.addEventListener("click", () => {
             startButton.parentNode.removeChild(startButton);
+
+            /*
+            if(true) {
+                console.log('Проверить есть ли стейт в куки, и если есть то загрузить и применить уго к стейту приложения');
+                this.loadStateFromCookies()
+            }
+             */
             this.startNewLevel();
         });
     }
@@ -73,12 +68,12 @@ class SquareGame {
 
 //таймер чтобы пользователь не кликал раньше времени
     startTimer() {
-        this.timeLeft = 3;
+        // this.timeLeft = 3;
         this.timerInterval = setInterval(() => {
-            this.timeLeft--;
-            this.timerElement.textContent = this.timeLeft;
+            this.gameState.fadeTime--;
+            this.timerElement.textContent = this.gameState.fadeTime;
 
-            if (this.timeLeft < 1) {
+            if (this.gameState.fadeTime < 1) {
                 clearInterval(this.timerInterval);
                 this.timerElement.textContent = "Go!";
                 const color = document.querySelector('.circle');
@@ -92,80 +87,79 @@ class SquareGame {
         document.documentElement.style.pointerEvents = "none";
     }
 
-//разблокируем клики
+    //разблокируем клики
     unblockClick() {
         document.documentElement.style.pointerEvents = "auto";
     }
 
     //start new game level
     startNewLevel() {
+
         this.repeatedColor = getRandomColor();
         this.userMovemantColors = [];
         this.cleanDiv();
-        this.numberOfSquares = (this.gameDifficulty + 1) * (this.gameDifficulty + 1);
-        this.width = (this.gameDifficulty + 2) * 100 + 'px';
+        this.numberOfSquares = (this.gameState.gameDifficulty + 1) * (this.gameState.gameDifficulty + 1);
+        this.width = (this.gameState.gameDifficulty + 2) * 100 + 'px';
         this.sqaureWrapper.style.width = this.width;
         this.generateSquares();
         this.startTimer();
         this.userLife = 2;
         document.getElementById("output").textContent = this.userLife;
-        console.log(this.gameDifficulty)
+        this.saveStateToCookies();
     }
 
     nextLevel() {
-        this.setDifficultyLevel(this.gameDifficulty+1);
+        this.setDifficultyLevel(this.gameState.gameDifficulty + 1);
         this.startNewLevel();
     }
 
     prevLevel() {
-        this.setDifficultyLevel(this.gameDifficulty-1);
+        this.setDifficultyLevel(this.gameState.gameDifficulty - 1);
         this.startNewLevel();
     }
 
-    changeDifficultyLevel(direction) {
-        if (direction === 'next') {
-            this.setDifficultyLevel(this.gameDifficulty+1);
-        }
-        else if (direction === 'prev') {
-            this.gameDifficulty--;
-        }
-    }
-
+    //выбор сложности
     setDifficultyLevel(lvl) {
-        this.gameDifficulty = lvl;
-        if (this.gameDifficulty < 1) {
-            this.gameDifficulty = 1;
-        } else if (this.gameDifficulty > this.MAX_LEVEL) {
-            this.gameDifficulty = this.MAX_LEVEL;
+        this.gameState.gameDifficulty = lvl;
+        if (this.gameState.gameDifficulty < 1) {
+            this.gameState.gameDifficulty = 1;
+        } else if (this.gameState.gameDifficulty > this.MAX_LEVEL) {
+            this.gameState.gameDifficulty = this.MAX_LEVEL;
         }
+        document.getElementById("output2").textContent = this.gameState.gameDifficulty;
     }
 
     // Генерация цветов
     generateSquares() {
         let randomColors = generateColors();
         let repeatedColor = this.repeatedColor;
-        // Взять искомый цвет, найти его в массиве "случайных цветов" и убрать оттуда
         //генерация квадратов одинакового цвета
         let repeatedColorIndex = randomColors.indexOf(repeatedColor);
         randomColors.splice(repeatedColorIndex, 1);
-
-
-        for (let i = 0; i < this.gameDifficulty + 1; i++) {
+        for (let i = 0; i < this.gameState.gameDifficulty + 1; i++) {
             this.createSquare(repeatedColor)
         }
 
         // генерация квадратов разных цветов
-        for (let i = this.gameDifficulty + 1; i < this.numberOfSquares; i++) {
+        for (let i = this.gameState.gameDifficulty + 1; i < this.numberOfSquares; i++) {
             this.createSquare(randomColors[i])
         }
     }
 
+    //создание квадратов
     createSquare(imgUrl) {
-        let square = document.createElement("div");
-        square.className = "square";
-        square.style.backgroundImage = `url(${imgUrl})`;
-        square.style.order = Math.floor(Math.random() * this.numberOfSquares);
-        this.sqaureWrapper.appendChild(square);
+        let flipCard = document.createElement("div");
+        flipCard.classList.add("square");
+        flipCard.classList.add('flip-card');
+        flipCard.style.backgroundImage = `url(${imgUrl})`;
+        flipCard.style.order = Math.floor(Math.random() * this.numberOfSquares);
+        let flipCardInner = document.createElement('div');
+        flipCardInner.classList.add('flip-card-inner');
+        let flipCardFront = document.createElement('div');
+        flipCardFront.classList.add('flip-card-back');
+        flipCardInner.append(flipCardFront)
+        flipCard.append(flipCardInner);
+        this.sqaureWrapper.appendChild(flipCard);
     }
 
     //окрашивание квадратов в один свет
@@ -173,7 +167,12 @@ class SquareGame {
         const allSquares = this.sqaureWrapper.querySelectorAll('.square');
         setTimeout(() => {
             for (let i = 0; i < allSquares.length; i++) {
-                allSquares[i].classList.add("grey");
+                // allSquares[i].classList.add("backColorCard");
+
+                setTimeout(() => {
+                    allSquares[i].classList.add('covered');
+                }, 500 * Math.random())
+
             }
 
         }, 1000);
@@ -185,35 +184,22 @@ class SquareGame {
         this.sqaureWrapper.innerHTML = "";
     }
 
-
-    // Выбор сложности
-    setDifficultyLevelOLD() {
-        if (this.levelSelector.value === "1") {
-            this.gameDifficulty = 1;
-        }
-        if (this.levelSelector.value === "2") {
-            this.gameDifficulty = 2;
-        } else if (this.levelSelector.value === "3") {
-            this.gameDifficulty = 3;
-        }
-        this.startNewLevel();
-
-    };
-
 //переход на следующий уровень
     checkSameColors(event) {
         let repeatedColor = this.repeatedColor;
         const target = event.target;
-        target.classList.remove('grey');
-        let currentColor = target.style.backgroundImage.toString();
-        let string = target.style.backgroundImage;
+        const flipCard = target.closest('.flip-card');
+        flipCard.classList.remove('flip-card-back');
+        flipCard.classList.remove('covered');
+        let currentColor = flipCard.style.backgroundImage.toString();
+        let string = flipCard.style.backgroundImage;
         let cardName = string.substring(string.indexOf('/'), string.lastIndexOf('"'));
-
         if (repeatedColor === cardName) {
             this.userMovemantColors.push(currentColor);
 
-            if (this.userMovemantColors.length === this.gameDifficulty + 1) {
-                if (this.gameDifficulty < this.MAX_LEVEL) {
+            if (this.userMovemantColors.length === this.gameState.gameDifficulty + 1) {
+
+                if (this.gameState.gameDifficulty < this.MAX_LEVEL) {
                     Swal.fire({
                         icon: 'success',
                         title: 'победа',
@@ -225,7 +211,7 @@ class SquareGame {
                     Swal.fire({
                         icon: 'success',
                         title: "YOU WIN"
-                    }).then(()=> {
+                    }).then(() => {
                         // имеет смысл сделать отдельную ф-ю для "очистки старых данных" перед перезапуском ВСЕХ уровней
                         this.setDifficultyLevel(1);
                         //this.userLife = 1;
@@ -235,8 +221,6 @@ class SquareGame {
 
                 }
             }
-
-
 
 
         } else {
@@ -255,25 +239,63 @@ class SquareGame {
         }
 
     }
+
+    // Save state to cookies
+    saveStateToCookies() {
+        // "key=value"
+        let stringState = JSON.stringify(this.gameState)
+        let encodedState = encodeURIComponent(stringState)
+        document.cookie = "state=" + encodedState;
+
+    }
+
+    // Load state from cookies
+    loadStateFromCookies() {
+        this.gameState = this.getValueFromCookie("state");
+
+    }
+
+    // GET FROM COOKIES
+    getValueFromCookie(name) {
+        const cookies = document.cookie;
+        let decodedCookies = decodeURIComponent(cookies);
+        let arrCookies = decodedCookies.split('; ');
+        console.log(arrCookies)
+        for (let i = 0; i < arrCookies.length; i++) {
+            let splitedCookies = arrCookies[i].split('=');
+            let keyCookies = splitedCookies[0];
+            let valueCookies = splitedCookies[1];
+            if (name !== keyCookies) {
+            } else {
+
+                return JSON.parse(valueCookies);
+            }
+        }
+        // return value;
+    }
+
+
 }
 
 
-const squareWrapper = document.querySelector('.squareWrapper');
-const buttonStart = document.querySelector('.start-button');
-const audioSquare = new Audio('../audio/click.ogg');
-const audioButtonStart = new Audio('../audio/songscard.mp3');
+//Функция для воспроизведения звука при клике
+function music() {
+    const squareWrapper = document.querySelector('.squareWrapper');
+    const buttonStart = document.querySelector('.start-button');
+    const audioSquare = new Audio('https://zhannage.github.io/SquareGame/audio/click.ogg');
+    const audioButtonStart = new Audio('https://zhannage.github.io/SquareGame/audio/songscard.mp3');
 
-// Функция для воспроизведения звука при клике
-function playClickSound(song) {
-    song.currentTime = 0;
-    song.play();
+    function playClickSound(song) {
+        song.currentTime = 0;
+        song.play();
+    }
+
+    squareWrapper.addEventListener('click', () => playClickSound(audioSquare));
+    buttonStart.addEventListener('click', () => playClickSound(audioButtonStart));
+
 }
 
-squareWrapper.addEventListener('click', () => playClickSound(audioSquare));
-buttonStart.addEventListener('click', () => playClickSound(audioButtonStart));
-
-//startNewGame();
+music()
 
 let squareGame = new SquareGame(1, ".simpleGameApp");
 squareGame.start();
-
