@@ -6,6 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="fb484d9f-e871-4398-b7cb-d4fc186fa1a7" name="Changes" comment="add cards">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/script/script.js" beforeDir="false" afterPath="$PROJECT_DIR$/script/script.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/style/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/style/style.css" afterDir="false" />
     </list>
@@ -33,6 +34,10 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 7
+}</component>
   <component name="ProjectId" id="2RVPOu0Y3kSBp25jDXfH1935CpX" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -44,6 +49,7 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;last_opened_file_path&quot;: &quot;/Users/zhanna/Desktop/projects/SquareGame&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
@@ -92,6 +98,13 @@
       <workItem from="1688043294660" duration="42799000" />
       <workItem from="1688381567270" duration="946000" />
       <workItem from="1688383734071" duration="1000" />
+      <workItem from="1688385915826" duration="6039000" />
+      <workItem from="1688630314501" duration="7441000" />
+      <workItem from="1688884931483" duration="1380000" />
+      <workItem from="1688990871108" duration="6000" />
+      <workItem from="1688990930266" duration="5037000" />
+      <workItem from="1690660985743" duration="1000" />
+      <workItem from="1690803602763" duration="2000" />
     </task>
     <task id="LOCAL-00001" summary="commit">
       <created>1688043165065</created>
@@ -130,6 +143,15 @@
     <option name="LAST_COMMIT_MESSAGE" value="add cards" />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/script/script.js</url>
+          <line>75</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <watches-manager>
       <configuration name="JavascriptDebugType">
         <watch expression="console.log(repeatedColor);" language="JavaScript" />
