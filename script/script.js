@@ -1,4 +1,3 @@
-
 const colors = ['./img/1.png', './img/2.png', './img/3.png', './img/4.png', './img/5.png', './img/6.png', './img/7.png', './img/8.png', './img/9.png', './img/10.png', './img/11.png', './img/12.png', './img/13.png', './img/14.png', './img/15.png', './img/16.png', './img/17.png', './img/18.png', './img/18.png', './img/20.png', './img/21.png', './img/22.png', './img/23.png', './img/25.png', './img/25.png', './img/26.png', './img/27.png', './img/28.png', './img/29.png'];
 
 //Функция для генерации случайного числа в заданном диапазоне
@@ -39,7 +38,6 @@ class SquareGame {
             gameDifficulty: level,
             fadeTime: 2,
         };
-        // this.gameState.gameDifficulty = level;
         this.width = (this.gameState.gameDifficulty + 2) * 100 + 'px';
         this.parentDiv = document.querySelector(parentSelector);
         this.userMovemantColors = [];
@@ -48,7 +46,6 @@ class SquareGame {
         this.repeatedColor;
         this.timerElement = document.getElementById("timer");
         this.timerInterval = null;
-        //console.log(this.gameState)
     }
 
 
@@ -63,8 +60,6 @@ class SquareGame {
                 console.log('Проверить есть ли стейт в куки, и если есть то загрузить и применить уго к стейту приложения');
                 this.loadStateFromCookies()
             }
-
-
              */
             this.startNewLevel();
         });
@@ -74,11 +69,8 @@ class SquareGame {
 //таймер чтобы пользователь не кликал раньше времени
     startTimer() {
         // this.timeLeft = 3;
-        console.log(this.gameState.fadeTime)
-        console.log(this.gameState)
         this.timerInterval = setInterval(() => {
             this.gameState.fadeTime--;
-            //console.log(this.gameState)
             this.timerElement.textContent = this.gameState.fadeTime;
 
             if (this.gameState.fadeTime < 1) {
@@ -95,7 +87,7 @@ class SquareGame {
         document.documentElement.style.pointerEvents = "none";
     }
 
-   //разблокируем клики
+    //разблокируем клики
     unblockClick() {
         document.documentElement.style.pointerEvents = "auto";
     }
@@ -196,13 +188,9 @@ class SquareGame {
     checkSameColors(event) {
         let repeatedColor = this.repeatedColor;
         const target = event.target;
-        const flipCard= target.closest('.flip-card');
-
-
+        const flipCard = target.closest('.flip-card');
         flipCard.classList.remove('flip-card-back');
         flipCard.classList.remove('covered');
-
-
         let currentColor = flipCard.style.backgroundImage.toString();
         let string = flipCard.style.backgroundImage;
         let cardName = string.substring(string.indexOf('/'), string.lastIndexOf('"'));
@@ -254,63 +242,49 @@ class SquareGame {
 
     // Save state to cookies
     saveStateToCookies() {
-        console.log('save state to cookies')
         // "key=value"
         let stringState = JSON.stringify(this.gameState)
         let encodedState = encodeURIComponent(stringState)
-        console.log(stringState)
         document.cookie = "state=" + encodedState;
 
     }
 
     // Load state from cookies
     loadStateFromCookies() {
-        console.log('load from cookies');
-        console.log(document.cookie)
-        let cookieState = this.getValueFromCookie("state");
-        console.log(cookieState);
-        this.gameState = cookieState;
-
+        this.gameState = this.getValueFromCookie("state");
 
     }
 
     // GET FROM COOKIES
     getValueFromCookie(name) {
         const cookies = document.cookie;
-        console.log(cookies)
         let decodedCookies = decodeURIComponent(cookies);
-        console.log(decodedCookies);
-
         let arrCookies = decodedCookies.split('; ');
         console.log(arrCookies)
         for (let i = 0; i < arrCookies.length; i++) {
-            // 'state={"gameDifficulty":1,"test key":"Жанна ученик","lastGameLevel":["green",""]}'
             let splitedCookies = arrCookies[i].split('=');
             let keyCookies = splitedCookies[0];
             let valueCookies = splitedCookies[1];
-            if(name === keyCookies) {
+            if (name !== keyCookies) {
+            } else {
 
-                let parsedCookie = JSON.parse(valueCookies);
-                return parsedCookie;
+                return JSON.parse(valueCookies);
             }
         }
         // return value;
     }
 
 
-
 }
-
-
-
 
 
 //Функция для воспроизведения звука при клике
 function music() {
     const squareWrapper = document.querySelector('.squareWrapper');
     const buttonStart = document.querySelector('.start-button');
-    const audioSquare = new Audio('../audio/click.ogg');
-    const audioButtonStart = new Audio('../audio/songscard.mp3');
+    const audioSquare = new Audio('https://zhannage.github.io/SquareGame/audio/click.ogg');
+    const audioButtonStart = new Audio('https://zhannage.github.io/SquareGame/audio/songscard.mp3');
+
     function playClickSound(song) {
         song.currentTime = 0;
         song.play();
