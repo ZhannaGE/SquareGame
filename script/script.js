@@ -151,7 +151,7 @@ class SquareGame {
         let flipCard = document.createElement("div");
         flipCard.classList.add("square");
         flipCard.classList.add('flip-card');
-        flipCard.style.backgroundImage = `url(${imgUrl})`;
+        flipCard.style.backgroundImage = `url(.${imgUrl})`;
         flipCard.style.order = Math.floor(Math.random() * this.numberOfSquares);
         let flipCardInner = document.createElement('div');
         flipCardInner.classList.add('flip-card-inner');
